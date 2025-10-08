@@ -1,9 +1,10 @@
 export default class Task {
-    constructor(title, description, priority, date) {
-        this.title = title;
+    constructor(name, description, priority, date) {
+        this.name = name;
         this.description = description;
         this.priority = priority;
         this.date = date;
+        this.id = Math.random();
     }
 
     setName(name) {
@@ -33,13 +34,21 @@ export default class Task {
         return this.priority;
     }
 
+    getPriority() {
+        return this.date;
+    }
+
     setDate(date) {
         this.date = date;
         return this;
     }
 
-    getPriority() {
+    getDate() {
         return this.date;
+    }
+
+    getId() {
+        return this.id;
     }
 }
 

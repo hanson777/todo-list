@@ -1,13 +1,13 @@
-import "./Project";
+import Project from "./Project";
 
-class TodoList {
+export default class TodoList {
     constructor() {
         this.projects = [];
         this.projects.push(new Project("Inbox"));
     }
 
-    addProject(){
-        this.projects.push(new Project());
+    addProject(project){
+        this.projects.push(project);
         return this;
     }
     
