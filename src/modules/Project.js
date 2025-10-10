@@ -23,7 +23,7 @@ export default class Project {
         return this;
     }
 
-    getAllTasks() {
+    getTasks() {
         return this.tasks;
     }
 }
