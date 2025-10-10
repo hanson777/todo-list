@@ -4,51 +4,84 @@ import Task from "./Task";
 import Storage from "./Storage";
 
 export default class UI {
-    
-    static loadProjects(todoList) {
+
+    static createProject(project) {
+        const item = document.createElement("button");
+        item.classList.add("sidebar-item");
+        item.textContent = project.getName();
+        return item;
+    }
+
+    static loadDefaultProjects(todoList) {
         const fragment = document.createDocumentFragment();
-        const sidebar = document.querySelector(".sidebar");
-        todoList.getProjects().forEach((proj) => {
-            const project = document.createElement("button");
-            project.classList.add("sidebar-item");
-            project.textContent = proj.getName();
-            fragment.appendChild(project);
+        const defaultProjects = todoList.getProjects().filter((p) => 
+            p.getName() === "Inbox" ||
+            p.getName() === "Today" ||
+            p.getName() === "This week")                                        
+        defaultProjects.forEach((proj) => {
+            fragment.appendChild(UI.createProject(proj));
         });
+        return fragment;
+    }
+
+    static loadCustomProjects(todoList) {
+        const fragment = document.createDocumentFragment();
+        const customProjects = todoList.getProjects().filter((p) => 
+            p.getName() !== "Inbox" &&
+            p.getName() !== "Today" &&
+            p.getName() !== "This week") 
+        customProjects.forEach((proj) => {
+            fragment.appendChild(UI.createProject(proj));
+        });
+        return fragment;
+    }
+
+    static populateSidebar(todoList) {
+        const sidebar = document.querySelector(".sidebar");
+        const fragment = document.createDocumentFragment();
+        fragment.appendChild(UI.loadDefaultProjects(todoList));
+        fragment.appendChild(UI.loadCustomProjects(todoList));
         sidebar.replaceChildren(fragment);
     }
 
+    static createTaskItem(task) {
+        const item = document.createElement("li");
+        item.classList.add("tasklist-item");
+        item.textContent = task.getName();
+        return item;
+    }
+
     static loadTasks(todoList) {
-        const addBtn = document.querySelector(".add-button");
-        addBtn.classList.remove("hidden");
+        UI.showAddTaskButton();
         const fragment = document.createDocumentFragment();
         const taskContainer = document.querySelector(".task-container");
         const currentProject = todoList.getCurrentProject();
-        currentProject.getTasks().forEach((t) => {
-            const task = document.createElement("li");
-            task.classList.add("tasklist-item");
-            task.textContent = t.getName();
-            fragment.appendChild(task);
+        currentProject.getTasks().forEach((task) => {
+            fragment.appendChild(UI.createTaskItem(task));
         });
         taskContainer.replaceChildren(fragment);
     }
 
-    static loadNewTaskPopup() {
-        this.clearPopupContainer();
-        const fragment = document.createDocumentFragment();
-        const popupContainer = document.querySelector(".popup-container");
-        const nameInput = document.createElement("input");
-        nameInput.setAttribute("id", "task-title")
-        nameInput.classList.add("name-input", "tasklist-item"); 
+    static createNewTaskInput() {
+        const input = document.createElement("input");
+        input.setAttribute("id", "task-title")
+        input.classList.add("name-input", "tasklist-item"); 
+        return input;
+    }
+
+    static createNewTaskButton() {
         const btn = document.createElement("button");
         btn.classList.add("confirm-add-task", "tasklist-item");
         btn.textContent = "Add";
-        fragment.appendChild(nameInput);
-        fragment.appendChild(btn);
-        popupContainer.appendChild(fragment);
+        return btn;
     }
 
-    static clearPopupContainer() {
-        document.querySelector(".popup-container").replaceChildren();
+    static loadNewTaskPopup() {
+        const fragment = document.createDocumentFragment();
+        const popupContainer = document.querySelector(".popup-container");
+        fragment.appendChild(UI.createNewTaskInput());
+        fragment.appendChild(UI.createNewTaskButton());
+        popupContainer.replaceChildren(fragment);
     }
 
     static hideAddTaskButton() {
@@ -62,14 +95,26 @@ export default class UI {
     }
 
     static hideConfirmButton() {
-        const input = document.querySelector(".name-input");
         const addBtn = document.querySelector(".confirm-add-task");
-        input.classList.add("hidden");
         addBtn.classList.add("hidden");
+    }
+
+    static hideInput() {
+        const input = document.querySelector(".name-input");
+        input.classList.add("hidden");
     }
 
     static addTask(todoList) {
         const input = document.querySelector(".name-input").value;
         todoList.getCurrentProject().addTask(new Task(input));
+    }
+
+    static taskNameEmpty() {
+        const input = document.querySelector(".name-input").value;
+        return input === "";
+    }
+
+    static warn() {
+        alert("Task name cannot be empty");
     }
 }

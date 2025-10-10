@@ -8,6 +8,7 @@ export default class Controller {
             UI.loadNewTaskPopup();
             document.querySelector(".confirm-add-task").addEventListener("click", () => {
                 UI.hideConfirmButton();
+                UI.hideInput();
                 UI.addTask(todoList);
                 UI.loadTasks(todoList);
             });

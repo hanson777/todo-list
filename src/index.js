@@ -4,11 +4,14 @@ import "./modules/styles/tasklist-styles.css";
 import Controller from "./modules/Controller";
 import UI from "./modules/UI";
 import TodoList from "./modules/TodoList";
+import Project from "./modules/Project";
 import Task from "./modules/Task";
 
 const todoList = new TodoList();
+todoList.addProject(new Project("Graduating University"));
+todoList.addProject(new Project("Getting Hired"));
 
-UI.loadProjects(todoList);
+UI.populateSidebar(todoList);
 UI.loadTasks(todoList);
 Controller.bindEvents(todoList);
 
