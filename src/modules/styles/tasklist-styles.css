@@ -1,34 +1,33 @@
 .tasklist {
-    flex: 1;                       /* take remaining space next to sidebar */
+    flex: 1;       
     display: flex;
-    flex-direction: column;        /* stack tasks vertically */
+    flex-direction: column;     
     align-items: center;       
-    justify-content: flex-start;   /* start at top */
-    padding: 1rem;                 /* inner spacing */
+    justify-content: flex-start;  
+    padding: 1rem;                
     background-color: #ffffff;
-    overflow-y: auto;              /* scroll if many tasks */
+    overflow-y: auto;       
 }
 
-/* Each task item */
 .tasklist-item {
     display: flex;
     align-items: center;
     justify-content: left;
-    width: 50%;                   /* fill tasklist horizontally */
+    width: 50%;         
     padding: 0.75rem 1rem;
     font-family: 'Inter', sans-serif;  
     font-size: 0.95rem;
     color: #333333;             
     cursor: pointer;
     transition: background-color 0.2s ease, transform 0.1s ease;
-    margin-bottom: 0.5rem;         /* spacing between tasks */
+    margin-bottom: 0.5rem;
 }
 
 .confirm-add-task {
     background-color: #98FB98;
 }
 
-.popup-container, .task-container{
+.task-popup-container, .task-container{
     display: flex;
     flex-direction: column;
     justify-content: center;

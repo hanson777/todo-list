@@ -24,6 +24,15 @@ export default class UI {
         return fragment;
     }
 
+    static loadProjectHeader() {
+        const fragment = document.createDocumentFragment();
+        const header = document.createElement("h5"); 
+        header.classList.add("sidebar-section-title");
+        header.textContent = "Projects";
+        fragment.appendChild(header);
+        return fragment;
+    }
+
     static loadCustomProjects(todoList) {
         const fragment = document.createDocumentFragment();
         const customProjects = todoList.getProjects().filter((p) => 
@@ -37,11 +46,13 @@ export default class UI {
     }
 
     static populateSidebar(todoList) {
-        const sidebar = document.querySelector(".sidebar");
+        const projectContainer = document.querySelector(".project-container");
         const fragment = document.createDocumentFragment();
         fragment.appendChild(UI.loadDefaultProjects(todoList));
+        fragment.appendChild(UI.loadProjectHeader());
         fragment.appendChild(UI.loadCustomProjects(todoList));
-        sidebar.replaceChildren(fragment);
+        UI.showElement(".add-project-button");
+        projectContainer.replaceChildren(fragment);
     }
 
     static createTaskItem(task) {
@@ -52,7 +63,7 @@ export default class UI {
     }
 
     static loadTasks(todoList) {
-        UI.showAddTaskButton();
+        UI.showElement(".add-button");
         const fragment = document.createDocumentFragment();
         const taskContainer = document.querySelector(".task-container");
         const currentProject = todoList.getCurrentProject();
@@ -76,32 +87,39 @@ export default class UI {
         return btn;
     }
 
-    static loadNewTaskPopup() {
+    static createNewProjectInput() {
+        const input = document.createElement("input");
+        input.setAttribute("id", "project-name")
+        input.classList.add("project-input", "tasklist-item"); 
+        return input;
+    }
+
+    static createNewProjectButton() {
+        const btn = document.createElement("button");
+        btn.classList.add("confirm-add-project", "sidebar-item");
+        btn.textContent = "Add";
+        return btn;
+    }
+
+    static loadNewProjectPopup() {
         const fragment = document.createDocumentFragment();
-        const popupContainer = document.querySelector(".popup-container");
-        fragment.appendChild(UI.createNewTaskInput());
-        fragment.appendChild(UI.createNewTaskButton());
+        const popupContainer = document.querySelector(".project-popup-container");
+        fragment.appendChild(UI.createNewProjectInput());
+        fragment.appendChild(UI.createNewProjectButton());
         popupContainer.replaceChildren(fragment);
     }
 
-    static hideAddTaskButton() {
-        const addBtn = document.querySelector(".add-button");
-        addBtn.classList.add("hidden");
+    static addProject(todoList){
+        const input = document.querySelector(".project-input").value;
+        todoList.addProject(new Project(input));
     }
 
-    static showAddTaskButton() {
-        const addBtn = document.querySelector(".add-button");
-        addBtn.classList.remove("hidden");
-    }
-
-    static hideConfirmButton() {
-        const addBtn = document.querySelector(".confirm-add-task");
-        addBtn.classList.add("hidden");
-    }
-
-    static hideInput() {
-        const input = document.querySelector(".name-input");
-        input.classList.add("hidden");
+    static loadNewTaskPopup() {
+        const fragment = document.createDocumentFragment();
+        const popupContainer = document.querySelector(".task-popup-container");
+        fragment.appendChild(UI.createNewTaskInput());
+        fragment.appendChild(UI.createNewTaskButton());
+        popupContainer.replaceChildren(fragment);
     }
 
     static addTask(todoList) {
@@ -114,7 +132,15 @@ export default class UI {
         return input === "";
     }
 
-    static warn() {
-        alert("Task name cannot be empty");
+    static hideElement(className){
+        const ele = document.querySelector(`${className}`);
+        ele.classList.add("hidden");
+    }
+
+    static showElement(className){
+        const ele = document.querySelector(`${className}`);
+        if(ele.classList.contains("hidden")) {
+            ele.classList.remove("hidden");
+        }
     }
 }
