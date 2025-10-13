@@ -41,6 +41,6 @@
     text-transform: uppercase;
 }
 
-.add-project-button {
+.add-project-button:hover, .confirm-add-project:hover {
     background-color: #aaaaaa;
 }

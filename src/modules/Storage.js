@@ -1,7 +1,6 @@
 import TodoList from "./TodoList";
+import Project from "./Project";
 
 export default class Storage {
-    static getTodoList() {
-        return new TodoList();
-    }
+    
 }

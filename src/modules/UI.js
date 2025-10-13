@@ -8,6 +8,7 @@ export default class UI {
     static createProject(project) {
         const item = document.createElement("button");
         item.classList.add("sidebar-item");
+        item.classList.add("project");
         item.textContent = project.getName();
         return item;
     }
@@ -61,12 +62,20 @@ export default class UI {
         item.textContent = task.getName();
         return item;
     }
+    
+    static createProjectHeader(todoList) {
+        const projectHeader = document.createElement("h6");
+        projectHeader.textContent = `${todoList.getCurrentProject().getName()}`;
+        projectHeader.classList.add("tasklist-item", "project-header");
+        return projectHeader;
+    }
 
     static loadTasks(todoList) {
         UI.showElement(".add-button");
         const fragment = document.createDocumentFragment();
         const taskContainer = document.querySelector(".task-container");
         const currentProject = todoList.getCurrentProject();
+        fragment.appendChild(UI.createProjectHeader(todoList));
         currentProject.getTasks().forEach((task) => {
             fragment.appendChild(UI.createTaskItem(task));
         });
@@ -90,7 +99,7 @@ export default class UI {
     static createNewProjectInput() {
         const input = document.createElement("input");
         input.setAttribute("id", "project-name")
-        input.classList.add("project-input", "tasklist-item"); 
+        input.classList.add("project-input", "sidebar-item"); 
         return input;
     }
 
@@ -110,8 +119,15 @@ export default class UI {
     }
 
     static addProject(todoList){
-        const input = document.querySelector(".project-input").value;
+        const input = document.querySelector(".project-input").value.trim();
+
+        if (!input) {
+            alert("Project name cannot be empty!");
+            return false;
+        }
+        
         todoList.addProject(new Project(input));
+        return true;
     }
 
     static loadNewTaskPopup() {
@@ -123,8 +139,15 @@ export default class UI {
     }
 
     static addTask(todoList) {
-        const input = document.querySelector(".name-input").value;
+        const input = document.querySelector(".name-input").value.trim();
+
+        if (!input) {
+            alert("Task name cannot be empty!");
+            return false;
+        }
+
         todoList.getCurrentProject().addTask(new Task(input));
+        return true;
     }
 
     static taskNameEmpty() {

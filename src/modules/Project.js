@@ -19,7 +19,7 @@ export default class Project {
     }
 
     deleteTask(taskToRemove) {
-        this.tasks = this.tasks.filter((task) => task.id !== taskToRemove.id);
+        this.tasks = this.tasks.filter((task) => task.getName() !== taskToRemove.getName());
         return this;
     }
 

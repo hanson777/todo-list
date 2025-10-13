@@ -23,6 +23,21 @@
     margin-bottom: 0.5rem;
 }
 
+.project-header {
+    font-size: 36px;
+    font-weight: bold;
+}
+
+.add-button {
+    background-color: transparent;
+    border: none;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.add-button:hover {
+    background-color: #aaaaaa;
+}
+
 .confirm-add-task {
     background-color: #98FB98;
 }

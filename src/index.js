@@ -9,10 +9,10 @@ import Project from "./modules/Project";
 import Task from "./modules/Task";
 
 const todoList = new TodoList();
-todoList.addProject(new Project("Graduating University"));
-todoList.addProject(new Project("Getting Hired"));
 
 UI.populateSidebar(todoList);
 UI.loadTasks(todoList);
 Controller.bindEvents(todoList);
+
+
 

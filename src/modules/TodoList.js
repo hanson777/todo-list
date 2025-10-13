@@ -20,8 +20,16 @@ export default class TodoList {
         return this.currentProject;
     }
 
+    setCurrentProject(name) {
+        this.currentProject = this.projects.find((p) => p.getName() === name);
+    }
+
     getProjectByName(name) {
         this.projects.find((project) => project.getName() === name);
+    }
+
+    deleteProject(name){
+        this.projects.filter((project) => project.getName() !== name);
     }
     
     getProjects(){
