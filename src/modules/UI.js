@@ -1,7 +1,5 @@
 import Project from "./Project";
-import TodoList from "./TodoList";
 import Task from "./Task";
-import Storage from "./Storage";
 
 export default class UI {
 

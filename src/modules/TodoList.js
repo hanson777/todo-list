@@ -1,10 +1,15 @@
 import Project from "./Project";
 
 export default class TodoList {
-    constructor() {
+    constructor(skipDefault = false) {
         this.projects = [];
-        this.projects.push(new Project("Inbox"));
-        this.currentProject = this.projects.find((p) => p.getName() === "Inbox");
+        this.currentProject = null;
+
+        if (!skipDefault) {
+            const defaultProject = new Project("Inbox");
+            this.addProject(defaultProject);
+            this.setCurrentProject(defaultProject.getName());
+        }
     }
 
     addProject(project) {
@@ -13,7 +18,7 @@ export default class TodoList {
     }
 
     deleteProject(name) {
-        this.projects.filter((project) => project.getName() !== name);
+        this.projects = this.projects.filter((project) => project.getName() !== name);
     }
 
     getCurrentProject() {

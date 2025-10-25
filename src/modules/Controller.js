@@ -4,6 +4,20 @@ import Storage from "./Storage";
 
 export default class Controller {
 
+    static init() {
+    let todoList = Storage.loadTodoList();
+
+    if (!todoList) {
+        todoList = new TodoList();
+        Storage.saveTodoList(todoList);
+    }
+
+    console.log(todoList);
+    UI.populateSidebar(todoList);
+    UI.loadTasks(todoList);
+    this.bindEvents(todoList);
+}
+
     static bindEvents(todoList) {
         document.querySelector(".add-button").addEventListener("click", () => {
         UI.hideElement(".add-button");
@@ -13,10 +27,10 @@ export default class Controller {
         confirmBtn.addEventListener("click", () => {
             const success = UI.addTask(todoList);
             if (!success) return;
-
             UI.hideElement(".confirm-add-task");
             UI.hideElement(".name-input");
             UI.loadTasks(todoList);
+            Storage.saveTodoList(todoList);
     });
 });
 
@@ -27,9 +41,11 @@ export default class Controller {
             confirmBtn.addEventListener("click", () => {
                 const success = UI.addProject(todoList);
                 if(!success) return;
+                console.log(todoList);
                 UI.hideElement(".confirm-add-project");
                 UI.hideElement(".project-input");
                 UI.populateSidebar(todoList);
+                Storage.saveTodoList(todoList);
             });
         });
 
@@ -38,6 +54,7 @@ export default class Controller {
                 const projectName = e.target.textContent;
                 todoList.setCurrentProject(projectName);
                 UI.loadTasks(todoList);
+                Storage.saveTodoList(todoList);
             }
         });
     }
